@@ -24,18 +24,18 @@ var router = express.Router();
 //});
 
 
-var pin = 14;
-var GPIO, led;
-GPIO = require('onoff').Gpio;
-led = new GPIO(pin, 'out');
-
-router.get('/', function(req, res, next) {
-    //console.log(req);
-    //var onOffValue = req.params.OnOffValue;
-
-    var onOffValue = parseInt(req.query.OnOffValue);
-    led.writeSync(onOffValue);
-    res.send('bulb ' + onOffValue + ', pin: ' + pin);
-});
+//var pin = 14;
+//var GPIO, motionSensor;
+//GPIO = require('onoff').Gpio;
+//led = new GPIO(pin, 'out');
+//
+//router.get('/', function(req, res, next) {
+//    //console.log(req);
+//    //var onOffValue = req.params.OnOffValue;
+//
+//    var onOffValue = parseInt(req.query.OnOffValue);
+//    led.writeSync(onOffValue);
+//    res.send('bulb ' + onOffValue + ', pin: ' + pin);
+//});
 
 module.exports = router;

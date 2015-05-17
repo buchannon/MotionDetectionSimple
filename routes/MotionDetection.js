@@ -2,17 +2,22 @@ var express = require('express');
 var router = express.Router();
 var _gpioPin = 14;
 var _gpioConnected = false;
-var _motionDetected = false;
+var _motionDetected = 0;
 var _intervalMs = 500;
-
 var Gpio, motioinSensor;
-try {
-    Gpio = require('onoff').Gpio;
-    motioinSensor = new Gpio(_gpioPin, 'in', 'both');
-    _gpioConnected = true;
-    console.log("connected to GPIO pin: " + _gpioPin);
-} catch(e) {
-    console.error("onoff not found");
+
+NewMotionSensor();
+
+function NewMotionSensor() {
+    try {
+        Gpio = require('onoff').Gpio;
+        motioinSensor = new Gpio(_gpioPin, 'in', 'both');
+        _gpioConnected = true;
+        console.log("connected to GPIO pin: " + _gpioPin);
+    } catch(e) {
+        _gpioConnected = false;
+        console.error("onoff not found");
+    }
 }
 
 function exit() {
@@ -22,10 +27,10 @@ function exit() {
 
 if (_gpioConnected)
 {
-    motioinSensor.watch(function(err, value) {
+    motioinSensor.watch(function(err, isMotionDetected) {
         if (err) exit();
-        //buzzer.writeSync(value);
-        _motionDetected = true;
+        _motionDetected = isMotionDetected;
+        console.log("motion detector reporting: " + isMotionDetected);
     });
 }
 

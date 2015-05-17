@@ -7,15 +7,22 @@ audioElement.setAttribute('src', '/sounds/barking-dog.mp3');
 //audioElement.setAttribute('autoplay', 'autoplay');
 var makingNoise = false;
 
-var MakeNoise = function() {
+function MakeNoise() {
+    makingNoise = true;
     console.log("Starting noise");
     audioElement.play();
-};
+}
 
-var StopAll = function() {
+function StopNoise() {
+    makingNoise = false;
+    console.log("Stopping noise");
     audioElement.pause();
+}
+
+function StopAll() {
+    StopNoise();
     _motionSensorWorking = false;
-};
+}
 
 var StartSensing = function() {
     //checkMotionSensor();
@@ -36,7 +43,13 @@ function DoMotionSensor(pollTimeJs)
 {
     $.get("/MotionDetection").done(function (data) {
         if (data && data.MotionSensed) {
-            MakeNoise();
+            if (!makingNoise)
+                MakeNoise();
+        }
+        else
+        {
+            if (makingNoise)
+                StopNoise();
         }
     });
 }

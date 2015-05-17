@@ -1,19 +1,38 @@
 var express = require('express');
 var router = express.Router();
+var _gpioPin = 14;
+var _gpioConnected = false;
+var _motionDetected = false;
+var _intervalMs = 500;
 
 var Gpio, motioinSensor;
-Gpio = require('onoff').Gpio;
-motioinSensor = new Gpio(14, 'in', 'both');
-//
-//function exit() {
-//    //buzzer.unexport();
-//    motioinSensor.unexport();
-//    process.exit();
-//}
+try {
+    Gpio = require('onoff').Gpio;
+    motioinSensor = new Gpio(_gpioPin, 'in', 'both');
+    _gpioConnected = true;
+    console.log("connected to GPIO pin: " + _gpioPin);
+} catch(e) {
+    console.error("onoff not found");
+}
+
+function exit() {
+    motioinSensor.unexport();
+    process.exit();
+}
+
+if (_gpioConnected)
+{
+    motioinSensor.watch(function(err, value) {
+        if (err) exit();
+        //buzzer.writeSync(value);
+        _motionDetected = true;
+    });
+}
 
 router.get('/', function(req, res, next) {
 
-    res.send('no motion');
+    res.send({ MotionSensed: _motionDetected });
+    console.log("motion detected: " + _motionDetected);
 });
 
 //// button is attaced to pin 17, led to 18

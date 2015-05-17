@@ -1,6 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
+var Gpio, motioinSensor;
+Gpio = require('onoff').Gpio;
+motioinSensor = new Gpio(14, 'in', 'both');
+//
+//function exit() {
+//    //buzzer.unexport();
+//    motioinSensor.unexport();
+//    process.exit();
+//}
+
+router.get('/', function(req, res, next) {
+
+    res.send('no motion');
+});
+
 //// button is attaced to pin 17, led to 18
 //var pin = 11;
 //var GPIO = require('onoff').Gpio,

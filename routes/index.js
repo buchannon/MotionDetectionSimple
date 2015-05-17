@@ -1,26 +1,23 @@
-var Gpio = require('onoff').Gpio,
-    //buzzer = new Gpio(18, 'out'),
-    pir = new Gpio(14, 'in', 'both');
+//var Gpio, motioinSensor;
+//Gpio = require('onoff').Gpio;
+//motioinSensor = new Gpio(14, 'in', 'both');
+//
+//function exit() {
+//    //buzzer.unexport();
+//    motioinSensor.unexport();
+//    process.exit();
+//}
 
-pir.watch(function(err, value) {
-    if (err) exit();
-    //buzzer.writeSync(value);
-    console.log('Intruder detected');
-    //if(value == 1)  require('./mailer').sendEmail();
-});
+function StartScanning() {
+    console.log('Started Scanning');
 
-console.log('Pi Bot deployed successfully!');
-console.log('Guarding the Magic pencil...');
-
-function exit() {
-    //buzzer.unexport();
-    pir.unexport();
-    process.exit();
+    motioinSensor.watch(function(err, value) {
+        if (err) exit();
+        //buzzer.writeSync(value);
+        console.log('MOTION DETECTED ( ) )#=======D');
+        //if(value == 1)  require('./mailer').sendEmail();
+    });
 }
-
-
-
-
 
 var express = require('express');
 var router = express.Router();

@@ -35,7 +35,6 @@ if (_gpioConnected)
 }
 
 router.get('/', function(req, res, next) {
-
     res.send({ MotionSensed: _motionDetected });
     console.log("motion detected: " + _motionDetected);
 });
